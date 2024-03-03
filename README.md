@@ -1,7 +1,5 @@
-# DOCKER-NGINX-VTS
+# Docker Nginx VTS
 
-This is docker nginx image, based on official nginx:1.22.1 compiled with
-[nginx-module-vts](https://github.com/vozlt/nginx-module-vts) module.
+This docker container is based on the official [nginx](https://hub.docker.com/_/nginx) image and adds the [nginx-module-vts](https://github.com/vozlt/nginx-module-vts) module.
 
-## License: The Unlicense
-
+The built container is available on [Docker Hub](https://hub.docker.com/r/billya84/docker-nginx-vts).
