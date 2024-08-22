@@ -26,9 +26,7 @@ RUN cd /opt \
   && sed -i -r -e "s/\.\/configure(.*)/.\/configure\1 --add-module=\/opt\/nginx-module-vts-${NGINX_VTS_VERSION}/" /opt/rebuildnginx/nginx-${NGINX_VERSION}/debian/rules \
   && cd /opt/rebuildnginx/nginx-${NGINX_VERSION} \
   && dpkg-buildpackage -b \
-  && cd /opt/rebuildnginx \
-  && dpkg --install nginx_${NGINX_VERSION}-2~${DEBIAN_CODENAME}_amd64.deb \
-  && apt-get remove --purge -y dpkg-dev curl && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/*
+  && cd /opt/rebuildnginx
 
 
 FROM nginx:${NGINX_VERSION} AS final
@@ -37,7 +35,7 @@ ARG NGINX_VERSION
 ARG NGINX_VTS_VERSION
 ARG DEBIAN_CODENAME
 
-COPY --from=build /opt/rebuildnginx/nginx_${NGINX_VERSION}-2~${DEBIAN_CODENAME}_amd64.deb /tmp/nginx_${NGINX_VERSION}-2~${DEBIAN_CODENAME}_amd64.deb
-RUN dpkg --install /tmp/nginx_${NGINX_VERSION}-2~${DEBIAN_CODENAME}_amd64.deb && rm /tmp/nginx_${NGINX_VERSION}-2~${DEBIAN_CODENAME}_amd64.deb
+COPY --from=build /opt/rebuildnginx/nginx_${NGINX_VERSION}-*~${DEBIAN_CODENAME}_amd64.deb /tmp/nginx_${NGINX_VERSION}-${DEBIAN_CODENAME}_amd64.deb
+RUN dpkg --install /tmp/nginx_${NGINX_VERSION}-${DEBIAN_CODENAME}_amd64.deb && rm /tmp/nginx_${NGINX_VERSION}-${DEBIAN_CODENAME}_amd64.deb
 
 CMD ["nginx", "-g", "daemon off;"]
